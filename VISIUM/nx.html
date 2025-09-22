@@ -1,0 +1,123 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 500px;
+            height: 500px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"id": "AT1", "label": "AT1", "shape": "dot", "size": 10}, {"id": "AT2", "label": "AT2", "shape": "dot", "size": 10}, {"id": "B-mature", "label": "B-mature", "shape": "dot", "size": 10}, {"id": "CD4", "label": "CD4", "shape": "dot", "size": 10}, {"id": "MAIT", "label": "MAIT", "shape": "dot", "size": 10}, {"id": "SMG-Duct", "label": "SMG-Duct", "shape": "dot", "size": 10}, {"id": "VE-systemic-venous", "label": "VE-systemic-venous", "shape": "dot", "size": 10}, {"id": "B-naive", "label": "B-naive", "shape": "dot", "size": 10}, {"id": "B-plasma-IgA", "label": "B-plasma-IgA", "shape": "dot", "size": 10}, {"id": "Chondrocyte", "label": "Chondrocyte", "shape": "dot", "size": 10}, {"id": "NK-CD56bright", "label": "NK-CD56bright", "shape": "dot", "size": 10}, {"id": "SMG-Mucous", "label": "SMG-Mucous", "shape": "dot", "size": 10}, {"id": "Secretory-Goblet", "label": "Secretory-Goblet", "shape": "dot", "size": 10}, {"id": "SMG-Serous", "label": "SMG-Serous", "shape": "dot", "size": 10}, {"id": "B-plasma-IgG", "label": "B-plasma-IgG", "shape": "dot", "size": 10}, {"id": "Basal", "label": "Basal", "shape": "dot", "size": 10}, {"id": "Ciliated", "label": "Ciliated", "shape": "dot", "size": 10}, {"id": "Macro-AW-CX3CR1", "label": "Macro-AW-CX3CR1", "shape": "dot", "size": 10}, {"id": "CD4-TRM/EMRA", "label": "CD4-TRM/EMRA", "shape": "dot", "size": 10}, {"id": "Fibro-adventitial", "label": "Fibro-adventitial", "shape": "dot", "size": 10}, {"id": "CD4-naive/CM", "label": "CD4-naive/CM", "shape": "dot", "size": 10}, {"id": "CD8", "label": "CD8", "shape": "dot", "size": 10}, {"id": "CD8-CTL", "label": "CD8-CTL", "shape": "dot", "size": 10}, {"id": "CD8-GZMK+", "label": "CD8-GZMK+", "shape": "dot", "size": 10}, {"id": "CD8-TRM", "label": "CD8-TRM", "shape": "dot", "size": 10}, {"id": "Fibro-perichondrial", "label": "Fibro-perichondrial", "shape": "dot", "size": 10}, {"id": "Secretory-Club", "label": "Secretory-Club", "shape": "dot", "size": 10}, {"id": "DC-1", "label": "DC-1", "shape": "dot", "size": 10}, {"id": "DC-2", "label": "DC-2", "shape": "dot", "size": 10}, {"id": "Muscle-smooth-airway-ASM", "label": "Muscle-smooth-airway-ASM", "shape": "dot", "size": 10}, {"id": "DC-activated", "label": "DC-activated", "shape": "dot", "size": 10}, {"id": "DC-plasmacytoid", "label": "DC-plasmacytoid", "shape": "dot", "size": 10}, {"id": "Endothelia-Lymphatic", "label": "Endothelia-Lymphatic", "shape": "dot", "size": 10}, {"id": "Fibro-alveolar", "label": "Fibro-alveolar", "shape": "dot", "size": 10}, {"id": "Fibro-myofibroblast", "label": "Fibro-myofibroblast", "shape": "dot", "size": 10}, {"id": "Fibro-peribronchial", "label": "Fibro-peribronchial", "shape": "dot", "size": 10}, {"id": "ILC", "label": "ILC", "shape": "dot", "size": 10}, {"id": "Macro-alv-MT", "label": "Macro-alv-MT", "shape": "dot", "size": 10}, {"id": "Monocyte-CD16", "label": "Monocyte-CD16", "shape": "dot", "size": 10}, {"id": "Muscle-perivascular-immune-recruiting", "label": "Muscle-perivascular-immune-recruiting", "shape": "dot", "size": 10}, {"id": "Macro-CCL", "label": "Macro-CCL", "shape": "dot", "size": 10}, {"id": "Macro-CHIT1", "label": "Macro-CHIT1", "shape": "dot", "size": 10}, {"id": "Macro-alveolar", "label": "Macro-alveolar", "shape": "dot", "size": 10}, {"id": "Macro-interstitial", "label": "Macro-interstitial", "shape": "dot", "size": 10}, {"id": "Macrophage-intermediate", "label": "Macrophage-intermediate", "shape": "dot", "size": 10}, {"id": "Macrophage-intravascular", "label": "Macrophage-intravascular", "shape": "dot", "size": 10}, {"id": "Monocyte-CD14", "label": "Monocyte-CD14", "shape": "dot", "size": 10}, {"id": "Muscle-pericyte-pulmonary", "label": "Muscle-pericyte-pulmonary", "shape": "dot", "size": 10}, {"id": "Muscle-smooth-pulmonary", "label": "Muscle-smooth-pulmonary", "shape": "dot", "size": 10}, {"id": "Muscle-smooth-systemic-arterial", "label": "Muscle-smooth-systemic-arterial", "shape": "dot", "size": 10}, {"id": "NK", "label": "NK", "shape": "dot", "size": 10}, {"id": "NKT", "label": "NKT", "shape": "dot", "size": 10}, {"id": "NK-CD11d", "label": "NK-CD11d", "shape": "dot", "size": 10}, {"id": "VE-systemic-arterial", "label": "VE-systemic-arterial", "shape": "dot", "size": 10}, {"id": "Suprabasal", "label": "Suprabasal", "shape": "dot", "size": 10}, {"id": "T-reg", "label": "T-reg", "shape": "dot", "size": 10}, {"id": "VE-alveolar-capillary-Car4-aerocyte", "label": "VE-alveolar-capillary-Car4-aerocyte", "shape": "dot", "size": 10}, {"id": "VE-capillary", "label": "VE-capillary", "shape": "dot", "size": 10}, {"id": "VE-pulmonary-arterial", "label": "VE-pulmonary-arterial", "shape": "dot", "size": 10}, {"id": "VE-pulmonary-venous", "label": "VE-pulmonary-venous", "shape": "dot", "size": 10}]);
+        edges = new vis.DataSet([{"from": "AT1", "to": "AT2", "weight": 0.920677966101695}, {"from": "B-mature", "to": "AT2", "weight": 0.6363636363636364}, {"from": "B-mature", "to": "CD4", "weight": 0.2727272727272727}, {"from": "B-mature", "to": "MAIT", "weight": 0.2727272727272727}, {"from": "B-mature", "to": "SMG-Duct", "weight": 0.2727272727272727}, {"from": "B-mature", "to": "VE-systemic-venous", "weight": 0.2727272727272727}, {"from": "B-naive", "to": "AT1", "weight": 0.3333333333333333}, {"from": "B-naive", "to": "AT2", "weight": 0.6666666666666666}, {"from": "B-naive", "to": "B-plasma-IgA", "weight": 0.3333333333333333}, {"from": "B-naive", "to": "Chondrocyte", "weight": 0.3333333333333333}, {"from": "B-naive", "to": "MAIT", "weight": 0.3333333333333333}, {"from": "B-naive", "to": "NK-CD56bright", "weight": 0.3333333333333333}, {"from": "B-naive", "to": "SMG-Duct", "weight": 0.3333333333333333}, {"from": "B-naive", "to": "SMG-Mucous", "weight": 0.3333333333333333}, {"from": "B-naive", "to": "Secretory-Goblet", "weight": 0.3333333333333333}, {"from": "B-plasma-IgA", "to": "AT2", "weight": 0.28424015009380865}, {"from": "B-plasma-IgA", "to": "SMG-Duct", "weight": 0.48405253283302063}, {"from": "B-plasma-IgA", "to": "SMG-Serous", "weight": 0.30863039399624764}, {"from": "B-plasma-IgG", "to": "AT1", "weight": 0.2484076433121019}, {"from": "B-plasma-IgG", "to": "AT2", "weight": 0.5520169851380042}, {"from": "B-plasma-IgG", "to": "B-plasma-IgA", "weight": 0.22505307855626328}, {"from": "B-plasma-IgG", "to": "SMG-Duct", "weight": 0.24416135881104034}, {"from": "Basal", "to": "AT2", "weight": 0.28205128205128205}, {"from": "Basal", "to": "Ciliated", "weight": 0.41025641025641024}, {"from": "Basal", "to": "SMG-Duct", "weight": 0.3076923076923077}, {"from": "CD4", "to": "AT1", "weight": 0.24242424242424243}, {"from": "CD4", "to": "AT2", "weight": 0.3939393939393939}, {"from": "CD4", "to": "Macro-AW-CX3CR1", "weight": 0.21212121212121213}, {"from": "CD4", "to": "SMG-Duct", "weight": 0.30303030303030304}, {"from": "CD4-TRM/EMRA", "to": "AT2", "weight": 0.7083333333333334}, {"from": "CD4-TRM/EMRA", "to": "Fibro-adventitial", "weight": 0.20833333333333334}, {"from": "CD4-TRM/EMRA", "to": "SMG-Duct", "weight": 0.20833333333333334}, {"from": "CD4-naive/CM", "to": "B-plasma-IgG", "weight": 0.3333333333333333}, {"from": "CD4-naive/CM", "to": "Fibro-adventitial", "weight": 0.3333333333333333}, {"from": "CD8", "to": "Chondrocyte", "weight": 0.38095238095238093}, {"from": "CD8", "to": "SMG-Duct", "weight": 0.23809523809523808}, {"from": "CD8-CTL", "to": "Chondrocyte", "weight": 1.0}, {"from": "CD8-CTL", "to": "SMG-Serous", "weight": 1.0}, {"from": "CD8-GZMK+", "to": "B-plasma-IgA", "weight": 0.3333333333333333}, {"from": "CD8-GZMK+", "to": "Chondrocyte", "weight": 0.2777777777777778}, {"from": "CD8-GZMK+", "to": "Fibro-adventitial", "weight": 0.2222222222222222}, {"from": "CD8-GZMK+", "to": "SMG-Duct", "weight": 0.4444444444444444}, {"from": "CD8-TRM", "to": "AT2", "weight": 0.3076923076923077}, {"from": "CD8-TRM", "to": "Fibro-perichondrial", "weight": 0.23076923076923078}, {"from": "CD8-TRM", "to": "SMG-Duct", "weight": 0.38461538461538464}, {"from": "CD8-TRM", "to": "Secretory-Club", "weight": 0.3076923076923077}, {"from": "Chondrocyte", "to": "B-plasma-IgA", "weight": 0.22477064220183487}, {"from": "Chondrocyte", "to": "SMG-Duct", "weight": 0.4036697247706422}, {"from": "Chondrocyte", "to": "SMG-Serous", "weight": 0.21712538226299694}, {"from": "Ciliated", "to": "SMG-Duct", "weight": 0.31868131868131866}, {"from": "Ciliated", "to": "Secretory-Goblet", "weight": 0.3241758241758242}, {"from": "DC-1", "to": "AT2", "weight": 0.52}, {"from": "DC-1", "to": "B-plasma-IgG", "weight": 0.2}, {"from": "DC-1", "to": "Fibro-adventitial", "weight": 0.24}, {"from": "DC-2", "to": "AT2", "weight": 0.5}, {"from": "DC-2", "to": "Chondrocyte", "weight": 0.2727272727272727}, {"from": "DC-2", "to": "Muscle-smooth-airway-ASM", "weight": 0.22727272727272727}, {"from": "DC-2", "to": "SMG-Duct", "weight": 0.22727272727272727}, {"from": "DC-activated", "to": "AT2", "weight": 0.4423076923076923}, {"from": "DC-activated", "to": "Chondrocyte", "weight": 0.36538461538461536}, {"from": "DC-plasmacytoid", "to": "AT2", "weight": 1.0}, {"from": "Endothelia-Lymphatic", "to": "AT1", "weight": 0.2054794520547945}, {"from": "Endothelia-Lymphatic", "to": "AT2", "weight": 0.547945205479452}, {"from": "Endothelia-Lymphatic", "to": "Fibro-adventitial", "weight": 0.2054794520547945}, {"from": "Fibro-adventitial", "to": "AT2", "weight": 0.2853185595567867}, {"from": "Fibro-adventitial", "to": "B-plasma-IgA", "weight": 0.20498614958448755}, {"from": "Fibro-adventitial", "to": "Fibro-perichondrial", "weight": 0.2299168975069252}, {"from": "Fibro-adventitial", "to": "SMG-Duct", "weight": 0.21606648199445982}, {"from": "Fibro-alveolar", "to": "AT1", "weight": 0.547945205479452}, {"from": "Fibro-alveolar", "to": "AT2", "weight": 0.863013698630137}, {"from": "Fibro-myofibroblast", "to": "Chondrocyte", "weight": 0.5612903225806452}, {"from": "Fibro-myofibroblast", "to": "SMG-Duct", "weight": 0.2645161290322581}, {"from": "Fibro-peribronchial", "to": "B-plasma-IgA", "weight": 0.34328358208955223}, {"from": "Fibro-peribronchial", "to": "Muscle-smooth-airway-ASM", "weight": 0.2537313432835821}, {"from": "Fibro-peribronchial", "to": "SMG-Duct", "weight": 0.26865671641791045}, {"from": "Fibro-perichondrial", "to": "B-plasma-IgA", "weight": 0.23178807947019867}, {"from": "Fibro-perichondrial", "to": "Chondrocyte", "weight": 0.2119205298013245}, {"from": "Fibro-perichondrial", "to": "SMG-Duct", "weight": 0.32450331125827814}, {"from": "ILC", "to": "AT1", "weight": 0.2}, {"from": "ILC", "to": "B-plasma-IgA", "weight": 0.4}, {"from": "ILC", "to": "Chondrocyte", "weight": 0.6}, {"from": "ILC", "to": "Fibro-adventitial", "weight": 0.2}, {"from": "ILC", "to": "Macro-alv-MT", "weight": 0.2}, {"from": "ILC", "to": "Monocyte-CD16", "weight": 0.2}, {"from": "ILC", "to": "Muscle-perivascular-immune-recruiting", "weight": 0.4}, {"from": "ILC", "to": "SMG-Duct", "weight": 0.4}, {"from": "ILC", "to": "SMG-Serous", "weight": 0.2}, {"from": "ILC", "to": "Secretory-Club", "weight": 0.4}, {"from": "MAIT", "to": "AT2", "weight": 0.5}, {"from": "Macro-AW-CX3CR1", "to": "AT2", "weight": 0.5}, {"from": "Macro-AW-CX3CR1", "to": "SMG-Duct", "weight": 0.2608695652173913}, {"from": "Macro-CCL", "to": "AT1", "weight": 0.7209302325581395}, {"from": "Macro-CCL", "to": "AT2", "weight": 0.9186046511627907}, {"from": "Macro-CHIT1", "to": "AT1", "weight": 0.375}, {"from": "Macro-CHIT1", "to": "AT2", "weight": 0.7613636363636364}, {"from": "Macro-alv-MT", "to": "AT1", "weight": 0.2809917355371901}, {"from": "Macro-alv-MT", "to": "AT2", "weight": 0.7107438016528925}, {"from": "Macro-alv-MT", "to": "Secretory-Club", "weight": 0.2644628099173554}, {"from": "Macro-alveolar", "to": "AT1", "weight": 0.4246575342465753}, {"from": "Macro-alveolar", "to": "AT2", "weight": 0.8538812785388128}, {"from": "Macro-interstitial", "to": "AT1", "weight": 0.4166666666666667}, {"from": "Macro-interstitial", "to": "AT2", "weight": 0.6904761904761905}, {"from": "Macro-interstitial", "to": "Secretory-Club", "weight": 0.2261904761904762}, {"from": "Macrophage-intermediate", "to": "AT1", "weight": 0.5818181818181818}, {"from": "Macrophage-intermediate", "to": "AT2", "weight": 0.8363636363636363}, {"from": "Macrophage-intravascular", "to": "AT1", "weight": 0.34831460674157305}, {"from": "Macrophage-intravascular", "to": "AT2", "weight": 0.7865168539325843}, {"from": "Monocyte-CD14", "to": "AT2", "weight": 0.875}, {"from": "Monocyte-CD14", "to": "Fibro-adventitial", "weight": 0.375}, {"from": "Monocyte-CD14", "to": "Fibro-myofibroblast", "weight": 0.25}, {"from": "Monocyte-CD14", "to": "Muscle-smooth-airway-ASM", "weight": 0.25}, {"from": "Monocyte-CD16", "to": "AT1", "weight": 0.3076923076923077}, {"from": "Monocyte-CD16", "to": "AT2", "weight": 0.6153846153846154}, {"from": "Monocyte-CD16", "to": "Macro-CHIT1", "weight": 0.23076923076923078}, {"from": "Monocyte-CD16", "to": "Secretory-Club", "weight": 0.23076923076923078}, {"from": "Muscle-pericyte-pulmonary", "to": "AT2", "weight": 0.36363636363636365}, {"from": "Muscle-pericyte-pulmonary", "to": "Chondrocyte", "weight": 0.2727272727272727}, {"from": "Muscle-pericyte-pulmonary", "to": "Fibro-adventitial", "weight": 0.36363636363636365}, {"from": "Muscle-pericyte-pulmonary", "to": "Fibro-perichondrial", "weight": 0.2727272727272727}, {"from": "Muscle-perivascular-immune-recruiting", "to": "AT2", "weight": 0.24603174603174602}, {"from": "Muscle-perivascular-immune-recruiting", "to": "B-plasma-IgA", "weight": 0.2222222222222222}, {"from": "Muscle-perivascular-immune-recruiting", "to": "Fibro-adventitial", "weight": 0.2777777777777778}, {"from": "Muscle-perivascular-immune-recruiting", "to": "SMG-Duct", "weight": 0.35714285714285715}, {"from": "Muscle-smooth-airway-ASM", "to": "AT2", "weight": 0.23300970873786409}, {"from": "Muscle-smooth-airway-ASM", "to": "Muscle-smooth-pulmonary", "weight": 0.2621359223300971}, {"from": "Muscle-smooth-airway-ASM", "to": "SMG-Duct", "weight": 0.21359223300970873}, {"from": "Muscle-smooth-pulmonary", "to": "AT2", "weight": 0.30158730158730157}, {"from": "Muscle-smooth-systemic-arterial", "to": "AT2", "weight": 0.29365079365079366}, {"from": "Muscle-smooth-systemic-arterial", "to": "Fibro-adventitial", "weight": 0.23809523809523808}, {"from": "Muscle-smooth-systemic-arterial", "to": "Muscle-smooth-airway-ASM", "weight": 0.2698412698412698}, {"from": "NK", "to": "AT2", "weight": 1.0}, {"from": "NK", "to": "Chondrocyte", "weight": 0.25}, {"from": "NK", "to": "Fibro-adventitial", "weight": 0.25}, {"from": "NK", "to": "Macro-AW-CX3CR1", "weight": 0.25}, {"from": "NK", "to": "Macro-CCL", "weight": 0.5}, {"from": "NK", "to": "Muscle-smooth-pulmonary", "weight": 0.25}, {"from": "NKT", "to": "AT2", "weight": 0.34782608695652173}, {"from": "NKT", "to": "Fibro-adventitial", "weight": 0.21739130434782608}, {"from": "NKT", "to": "SMG-Duct", "weight": 0.21739130434782608}, {"from": "NKT", "to": "Secretory-Club", "weight": 0.21739130434782608}, {"from": "NK-CD11d", "to": "Fibro-perichondrial", "weight": 0.2857142857142857}, {"from": "NK-CD11d", "to": "Macro-alveolar", "weight": 0.5714285714285714}, {"from": "NK-CD11d", "to": "Macro-interstitial", "weight": 0.2857142857142857}, {"from": "NK-CD11d", "to": "Monocyte-CD16", "weight": 0.2857142857142857}, {"from": "NK-CD11d", "to": "SMG-Serous", "weight": 0.2857142857142857}, {"from": "NK-CD11d", "to": "VE-systemic-arterial", "weight": 0.2857142857142857}, {"from": "NK-CD56bright", "to": "AT1", "weight": 0.25}, {"from": "NK-CD56bright", "to": "AT2", "weight": 0.75}, {"from": "NK-CD56bright", "to": "Secretory-Club", "weight": 0.25}, {"from": "NK-CD56bright", "to": "Secretory-Goblet", "weight": 0.25}, {"from": "SMG-Duct", "to": "SMG-Serous", "weight": 0.2818352059925094}, {"from": "SMG-Mucous", "to": "B-plasma-IgA", "weight": 0.44390243902439025}, {"from": "SMG-Mucous", "to": "Chondrocyte", "weight": 0.2}, {"from": "SMG-Mucous", "to": "SMG-Duct", "weight": 0.6585365853658537}, {"from": "SMG-Mucous", "to": "SMG-Serous", "weight": 0.2097560975609756}, {"from": "Secretory-Club", "to": "AT2", "weight": 0.5658747300215983}, {"from": "Secretory-Club", "to": "B-plasma-IgA", "weight": 0.22462203023758098}, {"from": "Secretory-Goblet", "to": "AT2", "weight": 0.24102564102564103}, {"from": "Suprabasal", "to": "Ciliated", "weight": 0.7183098591549296}, {"from": "Suprabasal", "to": "Secretory-Goblet", "weight": 0.2535211267605634}, {"from": "T-reg", "to": "B-plasma-IgG", "weight": 1.0}, {"from": "T-reg", "to": "Muscle-smooth-airway-ASM", "weight": 1.0}, {"from": "VE-alveolar-capillary-Car4-aerocyte", "to": "AT1", "weight": 0.3333333333333333}, {"from": "VE-alveolar-capillary-Car4-aerocyte", "to": "AT2", "weight": 0.7333333333333333}, {"from": "VE-alveolar-capillary-Car4-aerocyte", "to": "Macro-CHIT1", "weight": 0.2}, {"from": "VE-capillary", "to": "AT1", "weight": 0.37037037037037035}, {"from": "VE-capillary", "to": "AT2", "weight": 0.9259259259259259}, {"from": "VE-pulmonary-arterial", "to": "AT1", "weight": 0.3076923076923077}, {"from": "VE-pulmonary-arterial", "to": "AT2", "weight": 0.6666666666666666}, {"from": "VE-pulmonary-venous", "to": "AT1", "weight": 0.2608695652173913}, {"from": "VE-pulmonary-venous", "to": "AT2", "weight": 0.4782608695652174}, {"from": "VE-systemic-arterial", "to": "AT2", "weight": 0.2558139534883721}, {"from": "VE-systemic-arterial", "to": "Fibro-adventitial", "weight": 0.23255813953488372}, {"from": "VE-systemic-arterial", "to": "Muscle-smooth-airway-ASM", "weight": 0.3023255813953488}, {"from": "VE-systemic-arterial", "to": "Muscle-smooth-pulmonary", "weight": 0.2558139534883721}, {"from": "VE-systemic-arterial", "to": "Muscle-smooth-systemic-arterial", "weight": 0.32558139534883723}, {"from": "VE-systemic-venous", "to": "AT2", "weight": 0.31451612903225806}, {"from": "VE-systemic-venous", "to": "B-plasma-IgA", "weight": 0.22580645161290322}, {"from": "VE-systemic-venous", "to": "Fibro-adventitial", "weight": 0.25}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true,
+        "filter": [
+            "physics"
+        ]
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
